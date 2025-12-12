@@ -99,3 +99,19 @@ input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
     border-radius: 5px;
     background-color: lightcyan;
 }
+table {
+    margin: 10px auto;
+    border-collapse: collapse;
+    width: 50%;
+}
+th, td {
+    border: 1px solid goldenrod;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: lightyellow;
+}
+td {
+    background-color: lightcyan;
+}

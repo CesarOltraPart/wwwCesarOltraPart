@@ -103,7 +103,6 @@ input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
     color: darkgreen;
     background-color: lightcyan;
     border: 2px solid green;
-    display: inline-block;
     margin: 5px;
     padding: 3px;
 }
@@ -111,7 +110,6 @@ input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
     color: white;
     background-color: black;
     border: 2px solid black;
-    display: inline-block;
     margin: 5px;
     padding: 3px;
 }
@@ -119,7 +117,38 @@ input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
     color: chartreuse;
     background-color: green;
     border: 2px solid green;
-    display: inline-block;
     margin: 5px;
     padding: 3px;
+}
+table {
+    margin: 10px auto;
+    border-collapse: collapse;
+    width: 50%;
+}
+th, td {
+    border: 1px solid green;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: lightgreen;
+}
+td {
+    background-color: lightcyan;
+    height: 2rem;
+}
+.fons1 {
+    background-color: pink;
+}
+.fons2 {
+    background-color: yellow;
+}
+.fons3 {
+    background-color: blue;
+}
+.fons4 {
+    background-color: red;
+}
+.fons5 {
+    background-color: purple;
 }

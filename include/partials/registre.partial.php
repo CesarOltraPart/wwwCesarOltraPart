@@ -74,6 +74,15 @@
      <input type="range" name="mult" id="mult" min="1" max="100" value="1">
     </div>
     <div class="formulari">
+        <label>Animal en perill d' extincio</label>
+    <label><input id="axolot" name="animals[]" type="checkbox" value="axolot"/> Axolot</label>
+    <label><input id="vaquita" name="animals[]" type="checkbox" value="vaquita"/> Vaquita</label>
+    <label><input id="llop" name="animals[]" type="checkbox" value="llop"/> Llop iberic</label>
+    <label><input id="ornec" name="animals[]" type="checkbox" value="ornec"/> Órnec</label>
+    <label><input id="jaguar" name="animals[]" type="checkbox" value="jaguar"/> Jaguar</label>
+    <label><input id="addax" name="animals[]" type="checkbox" value="addax"/> Addax</label> 
+    </div>
+    <div class="formulari">
     <input type="submit" value="Enviar">
     <input type="reset" value="Reset">
     </div>
