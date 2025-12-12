@@ -24,7 +24,7 @@
     <div class="formulari">
     <label for="contrasenya">Contrasenya</label>
     <br>
-    <input id="contrasenya" name="contrasenya" type="password" required minlength="8" />
+    <input id="contrasenya" name="contrasenya" type="password" required />
     </div>
     <div class="formulari">
     <label for="telefon">Telèfon</label>
@@ -43,6 +43,17 @@
     </select>
     </div>
     <div class="formulari">
+    <label for="apadrinar">Animal a apadrinar</label>
+    <select id="apadrinar" name="apadrinar">
+        <option value="" disabled selected>Tria una opció</option>
+        <option value="gorila">Goril·la</option>
+        <option value="tortuga">Tortuga</option>
+        <option value="tigre">Tigre</option>
+        <option value="rinoceront">Rinoceront</option>
+        <option value="orangutan">Orangutan</option>
+    </select>
+    </div>
+    <div class="formulari">
     <label>Continent</label>
     <label><input id="europa" name="continent" type="radio" value="Europa"/> Europa</label>
     <label><input id="africa" name="continent" type="radio" value="Àfrica"/> Àfrica</label>
@@ -51,6 +62,16 @@
     <label><input id="asia" name="continent" type="radio" value="Àsia"/> Àsia</label>
     <label><input id="oceania" name="continent" type="radio" value="Oceania"/> Oceania</label> 
 
+    </div>
+    <div class="formulari">
+     <label>Estils registre</label>
+    <label><input id="roig" name="estils" type="radio" value="_roig"/> Roig</label>
+    <label><input id="groc" name="estils" type="radio" value="_groc"/> Groc</label>
+    </div>
+    <div class="formulari">
+     <label>Puntua la pagina(1-5)</label>
+     <input type="number" min="1" max="5" name="puntuacio" required>
+     <input type="range" name="mult" id="mult" min="1" max="100" value="1">
     </div>
     <div class="formulari">
     <input type="submit" value="Enviar">

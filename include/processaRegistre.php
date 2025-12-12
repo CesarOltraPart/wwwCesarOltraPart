@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apadriana animals</title>
-    <link rel="stylesheet" href="css/estils.css">
+    <link rel="stylesheet" href="../css/estils<?php 
+    $estils = "";
+    if (isset($_POST['estils'])) {
+        $estils = trim(htmlspecialchars($_POST['estils']));
+    }
+    echo $estils;
+    ?>.css">
 </head>
 <body>
   <?php

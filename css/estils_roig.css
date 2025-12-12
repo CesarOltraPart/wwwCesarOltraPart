@@ -2,29 +2,29 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: linear-gradient(0.45turn, lime,green, darkgreen);
+    background-image: linear-gradient(0.45turn, coral,red, darkred);
     align-content: center;
     text-align: center;
 }
 main,footer,header,nav {
     margin: 20px;
     padding: 20px;
-    background-color: lightgreen;
+    background-color: lightcoral;
     border-radius: 8px;
-    border: 4px yellowgreen outset;
+    border: 4px red outset;
 }
 a {
     text-decoration: none;
-    color: darkgreen;
+    color: darkred;
     font-weight: bold;
     background-color:lightcyan;
     padding: 5px;
     border-radius: 5px;
-    border: 2px green solid;
+    border: 2px red solid;
 }
 a:hover {
-    color: chartreuse;
-    background-color: green;
+    color: coral;
+    background-color: darkred;
 }
 header h1 {
     font-size: 2.5em;
@@ -37,10 +37,10 @@ header h1 {
     margin: auto;
 }
 h2 {
-    color: green;
+    color: red;
     background-color: lightcyan;
     border-radius: 8px;
-    border: 3px solid green;
+    border: 3px solid red;
     padding: 10px;
     width: fit-content;
     margin: 0 auto;
@@ -51,8 +51,8 @@ section {
     background-color: #CCCCFF;
     padding: 15px;
     border-radius: 8px;
-    border: 2px solid green;
-    color: darkgreen;
+    border: 2px solid red;
+    color: darkred;
     font-weight: 500;
     text-align: center;
 }
@@ -71,55 +71,31 @@ form {
 }
 label {
     font-weight: bold;
-    color: green;
+    color: red;
 }
 input {
     padding: 0.5em;
-    border: 2px solid green;
+    border: 2px solid red;
     border-radius: 5px;
 }
 input[type="submit"], input[type="reset"], button {
-    color: darkgreen;
+    color: darkred;
     font-weight: bold;
     background-color:lightcyan;
     padding: 5px;
     border-radius: 5px;
-    border: 2px green solid;
+    border: 2px red solid;
 }
 input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
-    color: chartreuse;
-    background-color: green;
+    color: coral;
+    background-color: darkred;
 }
 .resultat {
     font-weight: bold;
-    color: darkgreen;
+    color: darkred;
     text-align: center;
     margin: 0.5em 0;
-    border: 2px solid green;
+    border: 2px solid red;
     border-radius: 5px;
     background-color: lightcyan;
-}
-.normal {
-    color: darkgreen;
-    background-color: lightcyan;
-    border: 2px solid green;
-    display: inline-block;
-    margin: 5px;
-    padding: 3px;
-}
-.llarg {
-    color: white;
-    background-color: black;
-    border: 2px solid black;
-    display: inline-block;
-    margin: 5px;
-    padding: 3px;
-}
-.animal {
-    color: chartreuse;
-    background-color: green;
-    border: 2px solid green;
-    display: inline-block;
-    margin: 5px;
-    padding: 3px;
 }
