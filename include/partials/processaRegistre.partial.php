@@ -85,7 +85,7 @@ if (isset($_POST['animals'])) {
         echo "$puntuacio * $mult</p>";
         $puntuacio *= $mult;
         for ($i = 0; $i < $puntuacio; $i++) {
-            echo "<img src=\"../imatges/estrella.png\" alt=\"Estrella\" width=\"40px\" height=\"40px\">";
+            echo "<img src=\"../imatges/estrella$puntuacio.png\" alt=\"Estrella\" width=\"40px\" height=\"40px\">";
         }
 
         ?>

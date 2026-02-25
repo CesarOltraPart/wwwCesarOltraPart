@@ -23,7 +23,7 @@
         case "apadrina":
             $incluir = "apadrina";
             break;
-        case "inici":
+        default:
             $incluir = "inici";
             break;
     }
