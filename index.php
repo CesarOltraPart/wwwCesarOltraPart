@@ -23,14 +23,19 @@
         case "apadrina":
             $incluir = "apadrina";
             break;
+        
         default:
             $incluir = "inici";
             break;
     }
+    include "./include/funcions.php";
+    registrarNavegacio($apartat ?: 'inici');
+    include "./include/partials/css.partial.php";
     include "./include/partials/cap.partial.php";
     include "./include/partials/menu.partial.php";
     include "./include/partials/" . $incluir . ".partial.php";
     include "./include/partials/peu.partial.php";
+    
     
 ?>  
 </body>

@@ -14,10 +14,13 @@
 </head>
 <body>
   <?php
+    include "./partials/css.partial.php";
     include "./partials/cap.partial.php";
     include "./partials/menu.partial.php";
     include "./partials/processaRegistre.partial.php";
     include "./partials/peu.partial.php";
+    include "./include/funcions.php";
+    registrarAccionsUsuari('processa_registre', $_POST['usuari'], 'processaRegistre.php');
     
 ?>  
 </body>

@@ -83,11 +83,12 @@ if (isset($_POST['animals'])) {
     <div class="resultat">
         <p>Puntuació de la pàgina: <?php
         echo "$puntuacio * $mult</p>";
+        $estrella = $puntuacio;
         $puntuacio *= $mult;
         for ($i = 0; $i < $puntuacio; $i++) {
-            echo "<img src=\"../imatges/estrella$puntuacio.png\" alt=\"Estrella\" width=\"40px\" height=\"40px\">";
+            echo "<img src=\"../imatges/estrella$estrella.png\" alt=\"Estrella\" width=\"40px\" height=\"40px\">";
         }
-
+        
         ?>
     </div>
     <div class="resultat"></div>

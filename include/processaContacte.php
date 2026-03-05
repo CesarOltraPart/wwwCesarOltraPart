@@ -8,10 +8,15 @@
 </head>
 <body>
   <?php
+    
+    include "./partials/css.partial.php";
     include "./partials/cap.partial.php";
     include "./partials/menu.partial.php";
     include "./partials/processaContacte.partial.php";
     include "./partials/peu.partial.php";
+    include "./include/funcions.php";
+    registrarAccionsUsuari('processa_contacte', $_POST['usuari'], 'processaContacte.php');
+    
     
 ?>  
 </body>

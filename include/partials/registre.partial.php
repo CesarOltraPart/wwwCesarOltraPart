@@ -64,11 +64,6 @@
 
     </div>
     <div class="formulari">
-     <label>Estils registre</label>
-    <label><input id="roig" name="estils" type="radio" value="_roig"/> Roig</label>
-    <label><input id="groc" name="estils" type="radio" value="_groc"/> Groc</label>
-    </div>
-    <div class="formulari">
      <label>Puntua la pagina(1-5)</label>
      <input type="number" min="1" max="5" name="puntuacio" required>
      <input type="range" name="mult" id="mult" min="1" max="100" value="1">

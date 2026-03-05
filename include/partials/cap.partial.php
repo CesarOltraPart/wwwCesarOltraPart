@@ -1,6 +1,14 @@
 <header>
     <h1>Apadrina un animal en perill d'extincio</h1>
     <section>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <div class="formulari">
+        <label>Estils</label>
+        <label><input id="roig" name="estils" type="radio" value="_roig"/> Roig</label>
+        <label><input id="groc" name="estils" type="radio" value="_groc"/> Groc</label>
+        <button type="submit">Aplicar estilss</button>
+        </form>
+        </div> 
         <?php
         date_default_timezone_set('Europe/Madrid');
         $dataActual = date('d/m/Y');
