@@ -45,35 +45,96 @@ function registrarAccionsUsuari(string $accio, string $usuari, string $fitxer): 
     file_put_contents($arxiu_registre, $entrada, FILE_APPEND);
 }
 
-function registrarNavegacio($apartat) {
-    $directori_registre = obtenirDirectoriRegistre();
-    assegurarDirectoriRegistreExisteix($directori_registre);
-
-    $arxiu_registre = $directori_registre . '/navegacio.log';
-    if (!file_exists($arxiu_registre)) {
-        touch($arxiu_registre);
-    }
-
-    $linies = @file($arxiu_registre, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $numero_linia = is_array($linies) ? count($linies) : 0;
-
-    if ($numero_linia > 0 && $numero_linia % 10 === 0) {
-        $directori_copia_seguretat = $directori_registre . '/backup';
-        assegurarDirectoriRegistreExisteix($directori_copia_seguretat);
-
-        $marca_temps_copia = date('d-m-Y_H-i-s');
-        $arxiu_copia = $directori_copia_seguretat . '/backup_' . $marca_temps_copia . '.log';
-        if (!copy($arxiu_registre, $arxiu_copia)) {
-            error_log("Error al copiar el registre a la còpia de seguretat: $arxiu_registre -> $arxiu_copia");
+function esborraVariablesSessio() {
+    $keep = ['estils'];
+    foreach ($_SESSION as $key => $value) {
+        if (!in_array($key, $keep)) {
+            unset($_SESSION[$key]);
         }
     }
-
-    $linies = @file($arxiu_registre, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $numero_linia = (is_array($linies) ? count($linies) : 0) + 1;
-
-    $marca_temps = date('d/m/Y a l\'hora H:i:s');
-    $entrada = $numero_linia . ' :: Accés a l\'apartat ' . strtoupper($apartat) . ' el dia ' . $marca_temps . PHP_EOL;
-
-    file_put_contents($arxiu_registre, $entrada, FILE_APPEND);
 }
-?>
+
+function usuariExisteix(string $correu): bool {
+    try {
+        $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+        
+        if ($connexio->connect_error) {
+            error_log('Error connexió: ' . $connexio->connect_error);
+            return false;
+        }
+        
+        $connexio->set_charset('utf8mb4');
+        
+        $sql = 'SELECT id FROM usuari WHERE correu = ?';
+        $stmt = $connexio->prepare($sql);
+        
+        if (!$stmt) {
+            error_log('Error prepare: ' . $connexio->error);
+            $connexio->close();
+            return false;
+        }
+        
+        $stmt->bind_param('s', $correu);
+        
+        if ($stmt->execute()) {
+            $stmt->store_result();
+            $existeix = $stmt->num_rows > 0;
+            $stmt->close();
+            $connexio->close();
+            return $existeix;
+        } else {
+            error_log('Error execute: ' . $stmt->error);
+            $stmt->close();
+            $connexio->close();
+            return false;
+        }
+    } catch (Exception $e) {
+        error_log('Exception: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function insereixUsuari(string $nom, string $cognoms, string $correu, string $contrasenya): string {
+    try {
+        // Primer comprovat si l'usuari ja existeix
+        if (usuariExisteix($correu)) {
+            return 'usuariExisteix';
+        }
+        
+        $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+        
+        if ($connexio->connect_error) {
+            error_log('Error connexió: ' . $connexio->connect_error);
+            return 'error';
+        }
+        
+        $connexio->set_charset('utf8mb4');
+        
+        $cognoms_valor = trim($cognoms);
+        
+        $sql = 'INSERT INTO usuari (nom, cognoms, correu, contrasenya) VALUES (?, ?, ?, ?)';
+        $stmt = $connexio->prepare($sql);
+        
+        if (!$stmt) {
+            error_log('Error prepare: ' . $connexio->error);
+            $connexio->close();
+            return 'error';
+        }
+        
+        $stmt->bind_param('ssss', $nom, $cognoms_valor, $correu, $contrasenya);
+        
+        if ($stmt->execute()) {
+            $stmt->close();
+            $connexio->close();
+            return 'usuariInserit';
+        } else {
+            error_log('Error execute: ' . $stmt->error);
+            $stmt->close();
+            $connexio->close();
+            return 'error';
+        }
+    } catch (Exception $e) {
+        error_log('Exception: ' . $e->getMessage());
+        return 'error';
+    }
+}

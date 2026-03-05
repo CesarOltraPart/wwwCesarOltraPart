@@ -7,17 +7,26 @@
     <link rel="stylesheet" href="../css/estils.css">
 </head>
 <body>
-  <?php
+<?php
+session_start();
+include "./funcions.php";
+
+$_SESSION['apartat'] = 'contacte';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_SESSION['correu'] = $_POST['correu'];
+    $_SESSION['assumpte'] = $_POST['assumpte'];
+    $_SESSION['missatge'] = $_POST['missatge'];
     
-    include "./partials/css.partial.php";
-    include "./partials/cap.partial.php";
-    include "./partials/menu.partial.php";
-    include "./partials/processaContacte.partial.php";
-    include "./partials/peu.partial.php";
-    include "./include/funcions.php";
-    registrarAccionsUsuari('processa_contacte', $_POST['usuari'], 'processaContacte.php');
-    
-    
-?>  
+    registrarAccionsUsuari('processa_contacte', $_POST['correu'], 'processaContacte.php');
+}
+?>
+<?php
+include "./partials/css.partial.php";
+include "./partials/cap.partial.php";
+include "./partials/menu.partial.php";
+include "./partials/processaContacte.partial.php";
+include "./partials/peu.partial.php";
+?>
 </body>
 </html>

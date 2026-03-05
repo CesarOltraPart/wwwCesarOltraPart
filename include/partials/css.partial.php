@@ -1,8 +1,7 @@
 <?php
-if (isset($_GET['estils'])) {
-    $estil = $_GET['estils'];
-    echo "<link rel=\"stylesheet\" href=\"css/estils$estil.css\">";
+$path = strpos($_SERVER['PHP_SELF'], '/include/') !== false ? '../css/' : 'css/';
+$estil = isset($_SESSION['estils']) ? $_SESSION['estils'] : '';
+if ($estil) {
+    echo "<link rel=\"stylesheet\" href=\"$path/estils$estil.css\">";
 }
-
-
 ?>

@@ -1,3 +1,11 @@
+<?php
+session_start();
+include "./include/funcions.php";
+esborraVariablesSessio();
+if (isset($_GET['estils'])) {
+    $_SESSION['estils'] = $_GET['estils'];
+}
+?>
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -26,10 +34,11 @@
         
         default:
             $incluir = "inici";
+            $apartat = "inici";
             break;
     }
-    include "./include/funcions.php";
-    registrarNavegacio($apartat ?: 'inici');
+    $_SESSION['apartat'] = $apartat;
+   
     include "./include/partials/css.partial.php";
     include "./include/partials/cap.partial.php";
     include "./include/partials/menu.partial.php";

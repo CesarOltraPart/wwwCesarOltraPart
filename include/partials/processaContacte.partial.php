@@ -5,14 +5,14 @@ $missatge = "";
 $buit = "Valor buit";
 $columnes = 0;
 $files = 0;
-if (isset($_POST['correu'])) {
-    $correu = trim(htmlspecialchars($_POST['correu']));
+if (isset($_SESSION['correu'])) {
+    $correu = trim(htmlspecialchars($_SESSION['correu']));
 }
-if (isset($_POST['assumpte'])) {
-    $assumpte = trim(htmlspecialchars($_POST['assumpte']));
+if (isset($_SESSION['assumpte'])) {
+    $assumpte = trim(htmlspecialchars($_SESSION['assumpte']));
 }
-if (isset($_POST['missatge'])) {
-    $missatge = trim(htmlspecialchars($_POST['missatge']));
+if (isset($_SESSION['missatge'])) {
+    $missatge = trim(htmlspecialchars($_SESSION['missatge']));
 }
 ?>
 <main>

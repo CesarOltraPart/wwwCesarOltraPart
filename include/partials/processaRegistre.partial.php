@@ -13,47 +13,63 @@ $buit = "Valor buit";
 $puntuacio = 0;
 $mult = 1;
 $animals = [];
-if (isset($_POST['nom'])) {
-    $nom = trim(htmlspecialchars($_POST['nom']));
+$resultat_registre = "";
+
+if (isset($_SESSION['nom'])) {
+    $nom = trim(htmlspecialchars($_SESSION['nom']));
 }
-if (isset($_POST['cognoms'])) {
-    $cognoms = trim(htmlspecialchars($_POST['cognoms']));
+if (isset($_SESSION['cognoms'])) {
+    $cognoms = trim(htmlspecialchars($_SESSION['cognoms']));
 }
-if (isset($_POST['adreca'])) {
-    $adreca = trim(htmlspecialchars($_POST['adreca']));
+if (isset($_SESSION['adreca'])) {
+    $adreca = trim(htmlspecialchars($_SESSION['adreca']));
 }
-if (isset($_POST['correu'])) {
-    $correu = trim(htmlspecialchars($_POST['correu']));
+if (isset($_SESSION['correu'])) {
+    $correu = trim(htmlspecialchars($_SESSION['correu']));
 }
-if (isset($_POST['contrasenya'])) {
-    $contrasenya = trim(htmlspecialchars($_POST['contrasenya']));
+if (isset($_SESSION['contrasenya'])) {
+    $contrasenya = trim(htmlspecialchars($_SESSION['contrasenya']));
 }
-if (isset($_POST['telefon'])) {
-    $telefon = trim(htmlspecialchars($_POST['telefon']));
+if (isset($_SESSION['telefon'])) {
+    $telefon = trim(htmlspecialchars($_SESSION['telefon']));
 }
-if (isset($_POST['donacio'])) {
-    $donacio = trim(htmlspecialchars($_POST['donacio']));
+if (isset($_SESSION['donacio'])) {
+    $donacio = trim(htmlspecialchars($_SESSION['donacio']));
 }
-if (isset($_POST['apadrinar'])) {
-    $apadrinar = trim(htmlspecialchars($_POST['apadrinar']));
+if (isset($_SESSION['apadrinar'])) {
+    $apadrinar = trim(htmlspecialchars($_SESSION['apadrinar']));
 }
-if (isset($_POST['continent'])) {
-    $continent = trim(htmlspecialchars($_POST['continent']));
+if (isset($_SESSION['continent'])) {
+    $continent = trim(htmlspecialchars($_SESSION['continent']));
 }
-if (isset($_POST['puntuacio'])) {
-    $puntuacio = (int) trim(htmlspecialchars($_POST['puntuacio']));
+if (isset($_SESSION['puntuacio'])) {
+    $puntuacio = (int) trim(htmlspecialchars($_SESSION['puntuacio']));
 }
-if (isset($_POST['mult'])) {
-    $mult = (int) trim(htmlspecialchars($_POST['mult']));
+if (isset($_SESSION['mult'])) {
+    $mult = (int) trim(htmlspecialchars($_SESSION['mult']));
 }
-if (isset($_POST['animals'])) {
-    foreach ($_POST['animals'] as $animal) {
-        $animals[] = trim(htmlspecialchars($animal));
-    }
+if (isset($_SESSION['resultat_registre'])) {
+    $resultat_registre = $_SESSION['resultat_registre'];
 }
+$animals = isset($_SESSION['animals']) ? unserialize($_SESSION['animals']) : [];
 ?>
 <main>
     <h2>Dades de Registre d'Usuari</h2>
+    <?php
+    if ($resultat_registre === 'usuariInserit') {
+        echo '<div style="color: green; font-weight: bold; margin-bottom: 20px; padding: 10px; background-color: #e8f5e9; border: 1px solid green; border-radius: 5px;">';
+        echo 'Usuari inserit correctament en la base de dades.';
+        echo '</div>';
+    } elseif ($resultat_registre === 'usuariExisteix') {
+        echo '<div style="color: orange; font-weight: bold; margin-bottom: 20px; padding: 10px; background-color: #fff3e0; border: 1px solid orange; border-radius: 5px;">';
+        echo 'El correu electrònic introduït ja està registrat en el sistema.';
+        echo '</div>';
+    } elseif ($resultat_registre === 'error') {
+        echo '<div style="color: red; font-weight: bold; margin-bottom: 20px; padding: 10px; background-color: #ffebee; border: 1px solid red; border-radius: 5px;">';
+        echo 'Error en la inserció de l\'usuari. Si us plau, intenteu de nou més tard.';
+        echo '</div>';
+    }
+    ?>
     <p class="resultat">Nom: <?php echo $nom === "" ? $buit : $nom; ?></p>
     <p class="resultat">Cognoms: <?php echo $cognoms === "" ? $buit : $cognoms; ?></p>
     <p class="resultat">Adreça: <?php echo $adreca === "" ? $buit : $adreca; ?></p>
