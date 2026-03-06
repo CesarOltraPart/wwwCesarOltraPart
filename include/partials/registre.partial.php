@@ -27,6 +27,11 @@
     <input id="contrasenya" name="contrasenya" type="password" required />
     </div>
     <div class="formulari">
+    <label for="contrasenya2">Repetir contrasenya</label>
+    <br>
+    <input id="contrasenya2" name="contrasenya2" type="password" required />
+    </div>
+    <div class="formulari">
     <label for="telefon">Telèfon</label>
     <br>
     <input id="telefon" name="telefon" type="tel" pattern="[0-9+\s\-()]{6,20}"/>

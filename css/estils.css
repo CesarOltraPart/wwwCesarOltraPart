@@ -90,6 +90,24 @@ input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
     color: chartreuse;
     background-color: green;
 }
+
+.error, .error-login {
+    color: red;
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+
+.data {
+    color: darkblue;
+    font-style: italic;
+    margin: 0.5em 0;
+}
+
+.benvinguda {
+    color: navy;
+    font-weight: bold;
+    margin: 0.2em 0;
+}
 .resultat {
     font-weight: bold;
     color: darkgreen;

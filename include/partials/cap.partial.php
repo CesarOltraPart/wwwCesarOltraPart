@@ -6,6 +6,8 @@
         // Detectar si estamos en un archivo de procesamiento
         $filename = basename($_SERVER['PHP_SELF']);
         $form_action = ($filename === 'processaRegistre.php' || $filename === 'processaContacte.php') ? '../index.php' : $_SERVER['PHP_SELF'];
+        // acció per al formulari de login segons el fitxer
+        $login_action = ($filename === 'processaRegistre.php' || $filename === 'processaContacte.php' || $filename === 'processaLogin.php') ? '../include/processaLogin.php' : './include/processaLogin.php';
         ?>
         <form action="<?php echo $form_action; ?>" method="GET">
         <input type="hidden" name="apartat" value="<?php echo htmlspecialchars($current_apartat); ?>">
@@ -18,14 +20,13 @@
         </form>
         </div> 
         <?php
-        date_default_timezone_set('Europe/Madrid');
-        $dataActual = date('d/m/Y');
-        $dies = ['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres', 'Dissabte', 'Diumenge'];
-        $mesos = ['gener', 'febrer', 'març', 'abril', 'maig', 'juny', 'juliol', 'agost', 'setembre', 'octubre', 'novembre', 'desembre'];
-        $diaNumero = date('N') - 1;
-        $mesNumero = date('n') - 1;
-        $dataActual = $dies[$diaNumero] . ', ' . date('d') . ' de ' . $mesos[$mesNumero] . ' de ' . date('Y');
-        echo "<p>Data d'avui: $dataActual</p>";
+        // bloc de login (si no hi ha sessió d'usuari)
+        if (!isset($_SESSION['usuari_correu'])) {
+            include __DIR__ . '/login.partial.php';
+        }
+
+        // mostrar data i benvinguda
+        include __DIR__ . '/data.partial.php';
         ?>
     </section>
 </header>

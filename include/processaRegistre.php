@@ -15,6 +15,10 @@ include "./funcions.php";
 $_SESSION['apartat'] = 'registre';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!isset($_POST['contrasenya2']) || $_POST['contrasenya'] !== $_POST['contrasenya2']) {
+        errorContrasenya();
+    }
+
     $_SESSION['nom'] = $_POST['nom'];
     $_SESSION['cognoms'] = $_POST['cognoms'] ?? '';
     $_SESSION['adreca'] = $_POST['adreca'] ?? '';
@@ -43,8 +47,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php
 include "./partials/css.partial.php";
 include "./partials/cap.partial.php";
-include "./partials/menu.partial.php";
-include "./partials/processaRegistre.partial.php";
+// no mostrar el menú als administradors
+if (!isset($_SESSION['admin'])) {
+    include "./partials/menu.partial.php";
+}
+
+$toInclude = 'processaRegistre';
+if (isset($_SESSION['admin'])) {
+    $toInclude = 'admin';
+}
+include "./partials/{$toInclude}.partial.php";
 include "./partials/peu.partial.php";
 ?>
 </body>

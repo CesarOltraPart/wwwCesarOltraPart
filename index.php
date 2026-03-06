@@ -38,10 +38,21 @@ if (isset($_GET['estils'])) {
             break;
     }
     $_SESSION['apartat'] = $apartat;
+    if (isset($_SESSION['admin'])) {
+        $incluir = 'admin';
+    }
    
     include "./include/partials/css.partial.php";
     include "./include/partials/cap.partial.php";
-    include "./include/partials/menu.partial.php";
+    // no mostrar el menú als administradors
+    if (!isset($_SESSION['admin'])) {
+        include "./include/partials/menu.partial.php";
+    }
+
+    if (isset($_GET['error']) && $_GET['error'] === 'contrasenya' && $apartat === 'registre') {
+        echo '<p class="error">Les contrasenyes no coincideixen.</p>';
+    }
+
     include "./include/partials/" . $incluir . ".partial.php";
     include "./include/partials/peu.partial.php";
     

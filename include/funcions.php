@@ -46,11 +46,29 @@ function registrarAccionsUsuari(string $accio, string $usuari, string $fitxer): 
 }
 
 function esborraVariablesSessio() {
-    $keep = ['estils'];
+    // mantenim estils i dades de login perquè no es perden en cada càrrega d'index
+    $keep = ['estils', 'usuari_nom', 'usuari_correu', 'admin'];
     foreach ($_SESSION as $key => $value) {
         if (!in_array($key, $keep)) {
             unset($_SESSION[$key]);
         }
+    }
+}
+
+function errorContrasenya(): void {
+    header("Location: ../index.php?apartat=registre&error=contrasenya");
+    die();
+}
+
+function missatgeErrorLogin(string $error): void {
+    $msg = '';
+    if ($error === 'loginCorreu') {
+        $msg = 'L\'usuari no existeix.';
+    } elseif ($error === 'loginContrasenya') {
+        $msg = 'Contrasenya incorrecta.';
+    }
+    if ($msg !== '') {
+        echo '<p class="error error-login">' . htmlspecialchars($msg) . '</p>';
     }
 }
 
