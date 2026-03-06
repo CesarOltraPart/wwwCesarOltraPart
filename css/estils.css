@@ -103,6 +103,38 @@ input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
     margin: 0.5em 0;
 }
 
+.llista-animals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    margin: 1em 0;
+}
+
+.tarjeta-animal {
+    border: 5px solid green;
+    border-radius: 8px;
+    padding: 1em;
+    width: 250px;
+    background-color: lightcyan;
+    margin: 0.5em;
+}
+
+.llista-animals {
+    border: 2px dashed blue;
+}
+
+.tarjeta-animal h3 {
+    margin-top: 0;
+}
+
+.imatge-animal img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.5em;
+}
+
 .benvinguda {
     color: navy;
     font-weight: bold;

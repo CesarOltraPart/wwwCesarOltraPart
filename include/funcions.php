@@ -46,7 +46,8 @@ function registrarAccionsUsuari(string $accio, string $usuari, string $fitxer): 
 }
 
 function esborraVariablesSessio() {
-    $keep = ['estils', 'usuari_nom', 'usuari_correu', 'admin'];
+    // apart de l'estil i dades d'usuari/admin també conservem les dades del carret
+    $keep = ['estils', 'usuari_nom', 'usuari_correu', 'admin', 'idAnimal', 'quantitatAnimal'];
     foreach ($_SESSION as $key => $value) {
         if (!in_array($key, $keep)) {
             unset($_SESSION[$key]);
@@ -157,5 +158,60 @@ function insereixUsuari(string $nom, string $cognoms, string $correu, string $co
     } catch (Exception $e) {
         error_log('Exception: ' . $e->getMessage());
         return 'error';
+    }
+}
+function mostraFormulariAnimal(int $id): void {
+    // cada formulari té un identificador únic basat en l'id de l'animal
+    $formId   = 'formAnimal' . $id;
+    $hidId    = 'idAnimal' . $id;
+    $quantId  = 'quantitatAnimal' . $id;
+    $btnId    = 'enviaFormAnimal' . $id;
+
+    echo '<form id="' . $formId . '" name="' . $formId . '" action="index.php?apartat=apadrina" method="POST">';
+    echo '<input type="hidden" id="' . $hidId . '" name="idAnimal" value="' . $id . '">';
+    echo '<div><span><label for="' . $quantId . '">Quantitat:</label></span>';
+    echo '<span><input id="' . $quantId . '" name="quantitatAnimal" type="number" min="0" step="1"></span></div>';
+    echo '<div><span><button id="' . $btnId . '" name="envia" type="submit">Afegeix al carret</button></span></div>';
+    echo '</form>';
+}
+
+function mostraAnimals(): void {
+    try {
+        $conn = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+        if ($conn->connect_error) {
+            echo '<p class="error">Error de connexió amb la base de dades.</p>';
+            return;
+        }
+        $conn->set_charset('utf8mb4');
+        $sql = 'SELECT id, nom_comu, nom_cientific, descripcio, donacio, imatge, quantitat, data_afegit FROM animal';
+        $result = $conn->query($sql);
+        if (!$result) {
+            echo '<p class="error">No s\'ha pogut recuperar la llista d\'animals.</p>';
+            $conn->close();
+            return;
+        }
+        echo '<div class="llista-animals">';
+        while ($animal = $result->fetch_assoc()) {
+            $imgPath = './imatges/' . htmlspecialchars($animal['imatge']);
+            echo '<div class="tarjeta-animal">';
+            echo '<h3>' . htmlspecialchars($animal['nom_comu']) . '</h3>';
+            echo '<p><em>' . htmlspecialchars($animal['nom_cientific']) . '</em></p>';
+            echo '<div class="imatge-animal"><img src="' . $imgPath . '" alt="' . htmlspecialchars($animal['nom_comu']) . '" /></div>';
+            if ($animal['descripcio'] !== '') {
+                echo '<p>' . htmlspecialchars($animal['descripcio']) . '</p>';
+            }
+            echo '<p>Donació: ' . htmlspecialchars($animal['donacio']) . ' €</p>';
+            echo '<p>Quantitat apadrinada: ' . htmlspecialchars($animal['quantitat']) . '</p>';
+
+            // afegim formulari específic per cada animal
+            mostraFormulariAnimal((int)$animal['id']);
+
+            echo '</div>';
+        }
+        echo '</div>';
+        $result->free();
+        $conn->close();
+    } catch (Exception $e) {
+        echo '<p class="error">Exception: ' . htmlspecialchars($e->getMessage()) . '</p>';
     }
 }

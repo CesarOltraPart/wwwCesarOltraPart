@@ -1,7 +1,9 @@
 <main>
     <h2>Apadrina</h2>
-        <section>
-            <p>En construccio</p>
-            <img src="./imatges/tapir_centroamericano.jpg" alt="Tapir centroamericano">
-        </section>
+    <section>
+        <?php
+        include_once __DIR__ . '/../funcions.php';
+        mostraAnimals();
+        ?>
+    </section>
 </main>

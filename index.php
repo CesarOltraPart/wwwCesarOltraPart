@@ -1,6 +1,15 @@
 <?php
 session_start();
 include "./include/funcions.php";
+
+// process form from apadrina section
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['apartat']) && $_GET['apartat'] === 'apadrina') {
+    if (isset($_POST['idAnimal'], $_POST['quantitatAnimal'])) {
+        $_SESSION['idAnimal'] = intval($_POST['idAnimal']);
+        $_SESSION['quantitatAnimal'] = intval($_POST['quantitatAnimal']);
+    }
+}
+
 esborraVariablesSessio();
 if (isset($_GET['estils'])) {
     $_SESSION['estils'] = $_GET['estils'];

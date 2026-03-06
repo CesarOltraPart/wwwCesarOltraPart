@@ -115,3 +115,74 @@ th {
 td {
     background-color: lightcyan;
 }
+
+.error, .error-login {
+    color: red;
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+
+.data {
+    color: darkblue;
+    font-style: italic;
+    margin: 0.5em 0;
+}
+
+.llista-animals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    margin: 1em 0;
+    border: 2px dashed red;
+}
+
+.tarjeta-animal {
+    border: 5px solid red;
+    border-radius: 8px;
+    padding: 1em;
+    width: 250px;
+    background-color: lightcyan;
+    margin: 0.5em;
+}
+
+.tarjeta-animal h3 {
+    margin-top: 0;
+}
+
+.imatge-animal img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.5em;
+}
+
+.benvinguda {
+    color: navy;
+    font-weight: bold;
+    margin: 0.2em 0;
+}
+
+.normal {
+    color: darkred;
+    background-color: lightcyan;
+    border: 2px solid red;
+    margin: 5px;
+    padding: 3px;
+}
+
+.llarg {
+    color: white;
+    background-color: black;
+    border: 2px solid black;
+    margin: 5px;
+    padding: 3px;
+}
+
+.animal {
+    color: chartreuse;
+    background-color: green;
+    border: 2px solid green;
+    margin: 5px;
+    padding: 3px;
+}
