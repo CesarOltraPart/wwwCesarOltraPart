@@ -202,3 +202,36 @@ td {
 .fons5 {
     background-color: purple;
 }
+
+/* barra lateral carret */
+.carret {
+    border: 2px solid green;
+    padding: 0.5em;
+    background-color: lightyellow;
+    margin: 0.5em auto;
+    max-width: 200px;
+    text-align: left;
+}
+
+/* estil per l'apartat actual del menú */
+.menu-actiu {
+    font-weight: bold;
+    color: darkgreen;
+    text-decoration: none;
+    cursor: default;
+}
+
+
+
+.log-registre { background-color: #e0ffe0; }
+.log-contacte { background-color: #e0f0ff; }
+.log-login-ok { background-color: #d0ffd0; }
+.log-login-fallida { background-color: #ffd0d0; }
+.log-logout { background-color: #fff0d0; }
+.log-elimina { background-color: #ffe0e0; }
+
+.log-entries div {
+    padding: 0.3em;
+    margin: 0.1em 0;
+    border-radius: 4px;
+}

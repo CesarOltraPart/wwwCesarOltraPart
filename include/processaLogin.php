@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "./funcions.php";
+require_once __DIR__ . '/entity/CredencialsBD.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../index.php");
@@ -11,7 +12,12 @@ $correu = $_POST['correuLogin'] ?? '';
 $contrasenya = $_POST['contrasenyaLogin'] ?? '';
 
 try {
-    $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+    $connexio = new mysqli(
+        CredencialsBD::SERVIDOR,
+        CredencialsBD::USUARI,
+        CredencialsBD::CONTRASENYA,
+        CredencialsBD::BASEDADES
+    );
     if ($connexio->connect_error) {
         error_log('Error connexió login: ' . $connexio->connect_error);
         header("Location: ../index.php");
@@ -34,6 +40,7 @@ try {
     if ($stmt->num_rows === 0) {
         $stmt->close();
         $connexio->close();
+        registrarAccionsUsuari('login incorrecte', $correu, __FILE__);
         header("Location: ../index.php?error=loginCorreu");
         die();
     }
@@ -45,6 +52,7 @@ try {
 
     if (!password_verify($contrasenya, $contrasenyaDB)) {
         if ($contrasenya !== $contrasenyaDB) {
+            registrarAccionsUsuari('login incorrecte', $correu, __FILE__);
             header("Location: ../index.php?error=loginContrasenya");
             die();
         }
@@ -56,6 +64,8 @@ try {
         $_SESSION['admin'] = true;
     }
 
+    // registre login correcte amb el correu trobat a la base
+    registrarAccionsUsuari('login correcte', $correuDB, __FILE__);
     header("Location: ../index.php");
     die();
 } catch (Exception $e) {

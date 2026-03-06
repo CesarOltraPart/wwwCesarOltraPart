@@ -1,9 +1,15 @@
 <?php
+require_once __DIR__ . '/entity/CredencialsBD.php';
 
 function gestionaUsuaris(): void {
     // obtenim tots els usuaris
     try {
-        $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+        $connexio = new mysqli(
+            CredencialsBD::SERVIDOR,
+            CredencialsBD::USUARI,
+            CredencialsBD::CONTRASENYA,
+            CredencialsBD::BASEDADES
+        );
         if ($connexio->connect_error) {
             echo '<p class="error">Error de connexió a la base de dades.</p>';
             return;
@@ -50,4 +56,24 @@ function gestionaUsuaris(): void {
     } catch (Exception $e) {
         echo '<p class="error">Exception: ' . htmlspecialchars($e->getMessage()) . '</p>';
     }
+}
+
+// Mostra el contingut del fitxer de registre amb color segons l'acció
+function mostraAccionsUsuari(): void {
+    $directori = obtenirDirectoriRegistre();
+    $fitxer = $directori . '/accionsUsuari.log';
+    if (!file_exists($fitxer)) {
+        echo '<p>No hi ha registres disponibles.</p>';
+        return;
+    }
+
+    $lines = file($fitxer, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    echo '<div class="log-entries">';
+    foreach ($lines as $line) {
+        // generem un color de fons aleatori per a cada línia
+        $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        echo '<div style="background-color:' . $color . '; padding:0.3em; margin:0.1em 0; border-radius:4px;">'
+             . htmlspecialchars($line) . '</div>';
+    }
+    echo '</div>';
 }

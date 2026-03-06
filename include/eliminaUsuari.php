@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "./funcions.php";
+require_once __DIR__ . '/entity/CredencialsBD.php';
 
 if (!isset($_SESSION['admin']) || !$_SESSION['admin']) {
     header("Location: ../index.php");
@@ -14,14 +15,19 @@ if ($id <= 0) {
 }
 
 try {
-    $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+    $connexio = new mysqli(
+        CredencialsBD::SERVIDOR,
+        CredencialsBD::USUARI,
+        CredencialsBD::CONTRASENYA,
+        CredencialsBD::BASEDADES
+    );
     if ($connexio->connect_error) {
         header("Location: ../index.php?accioadmin=errorbasedades");
         die();
     }
     $connexio->set_charset('utf8mb4');
 
-    // no es pot eliminar l'admin
+    
     $stmt = $connexio->prepare('SELECT correu FROM usuari WHERE id = ?');
     $stmt->bind_param('i', $id);
     $stmt->execute();
@@ -39,6 +45,7 @@ try {
     if ($del->execute()) {
         $del->close();
         $connexio->close();
+        registrarAccionsUsuari('eliminació', $correu, __FILE__);
         header("Location: ../index.php?accioadmin=eliminat");
         die();
     } else {

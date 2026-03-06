@@ -1,5 +1,8 @@
 <?php 
 
+// accés a constants de connexió
+require_once __DIR__ . '/entity/CredencialsBD.php';
+
 function obtenirDirectoriRegistre(): string {
     $arrel = realpath(__DIR__ . '/..');
     if ($arrel === false) {
@@ -121,7 +124,12 @@ function insereixUsuari(string $nom, string $cognoms, string $correu, string $co
         // generar hash de la contrasenya
         $hash = password_hash($contrasenya, PASSWORD_DEFAULT);
 
-        $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+        $connexio = new mysqli(
+            CredencialsBD::SERVIDOR,
+            CredencialsBD::USUARI,
+            CredencialsBD::CONTRASENYA,
+            CredencialsBD::BASEDADES
+        );
         if ($connexio->connect_error) {
             error_log('Error connexió: ' . $connexio->connect_error);
             return 'error';
@@ -177,7 +185,12 @@ function mostraFormulariAnimal(int $id): void {
 
 function mostraAnimals(): void {
     try {
-        $conn = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
+        $conn = new mysqli(
+            CredencialsBD::SERVIDOR,
+            CredencialsBD::USUARI,
+            CredencialsBD::CONTRASENYA,
+            CredencialsBD::BASEDADES
+        );
         if ($conn->connect_error) {
             echo '<p class="error">Error de connexió amb la base de dades.</p>';
             return;

@@ -27,6 +27,8 @@
 
         // mostrar data i benvinguda
         include __DIR__ . '/data.partial.php';
+        // mostrar mini‑carret si n'hi ha
+        include __DIR__ . '/carret.partial.php';
         ?>
     </section>
 </header>

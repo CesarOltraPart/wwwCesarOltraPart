@@ -18,6 +18,22 @@
     }
 
     include_once __DIR__ . '/../funcionsAdmin.php';
+
+    // enllaços per mostrar/ocultar el log
+    $mostra = (isset($_GET['mostrarLog']) && $_GET['mostrarLog'] === 'true');
+    // construïm URL mantenint altres paràmetres
+    $params = $_GET;
+    if ($mostra) {
+        $params['mostrarLog'] = 'false';
+        $url = 'index.php?' . http_build_query($params);
+        echo '<p><a href="' . $url . '">Oculta Log</a></p>';
+        mostraAccionsUsuari();
+    } else {
+        $params['mostrarLog'] = 'true';
+        $url = 'index.php?' . http_build_query($params);
+        echo '<p><a href="' . $url . '">Mostra Log</a></p>';
+    }
+
     gestionaUsuaris();
     ?>
 </main>
