@@ -44,16 +44,21 @@ if (isset($_GET['estils'])) {
    
     include "./include/partials/css.partial.php";
     include "./include/partials/cap.partial.php";
-    // no mostrar el menú als administradors
     if (!isset($_SESSION['admin'])) {
         include "./include/partials/menu.partial.php";
     }
 
-    if (isset($_GET['error']) && $_GET['error'] === 'contrasenya' && $apartat === 'registre') {
-        echo '<p class="error">Les contrasenyes no coincideixen.</p>';
+    include "./include/partials/principal.partial.php";
+
+    if (isset($inici_override) && $inici_override) {
+        include "./include/partials/inici.partial.php";
+    } else {
+        if (isset($_GET['error']) && $_GET['error'] === 'contrasenya' && $apartat === 'registre') {
+            echo '<p class="error">Les contrasenyes no coincideixen.</p>';
+        }
+        include "./include/partials/" . $incluir . ".partial.php";
     }
 
-    include "./include/partials/" . $incluir . ".partial.php";
     include "./include/partials/peu.partial.php";
     
     

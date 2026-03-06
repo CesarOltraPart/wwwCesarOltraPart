@@ -46,7 +46,6 @@ function registrarAccionsUsuari(string $accio, string $usuari, string $fitxer): 
 }
 
 function esborraVariablesSessio() {
-    // mantenim estils i dades de login perquè no es perden en cada càrrega d'index
     $keep = ['estils', 'usuari_nom', 'usuari_correu', 'admin'];
     foreach ($_SESSION as $key => $value) {
         if (!in_array($key, $keep)) {
@@ -114,38 +113,42 @@ function usuariExisteix(string $correu): bool {
 
 function insereixUsuari(string $nom, string $cognoms, string $correu, string $contrasenya): string {
     try {
-        // Primer comprovat si l'usuari ja existeix
         if (usuariExisteix($correu)) {
             return 'usuariExisteix';
         }
-        
+
+        // generar hash de la contrasenya
+        $hash = password_hash($contrasenya, PASSWORD_DEFAULT);
+
         $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
-        
         if ($connexio->connect_error) {
             error_log('Error connexió: ' . $connexio->connect_error);
             return 'error';
         }
-        
         $connexio->set_charset('utf8mb4');
-        
+
+        // si el hash és molt llarg, s'intenta ampliar la columna abans d'insistir
+        if (strlen($hash) > 255) {
+            $connexio->query("ALTER TABLE usuari MODIFY contrasenya VARCHAR(512) NOT NULL");
+        }
+
         $cognoms_valor = trim($cognoms);
-        
         $sql = 'INSERT INTO usuari (nom, cognoms, correu, contrasenya) VALUES (?, ?, ?, ?)';
         $stmt = $connexio->prepare($sql);
-        
         if (!$stmt) {
             error_log('Error prepare: ' . $connexio->error);
             $connexio->close();
             return 'error';
         }
-        
-        $stmt->bind_param('ssss', $nom, $cognoms_valor, $correu, $contrasenya);
-        
+        $stmt->bind_param('ssss', $nom, $cognoms_valor, $correu, $hash);
         if ($stmt->execute()) {
             $stmt->close();
             $connexio->close();
             return 'usuariInserit';
         } else {
+            if (stripos($stmt->error, 'Data too long') !== false) {
+                $connexio->query("ALTER TABLE usuari MODIFY contrasenya VARCHAR(512) NOT NULL");
+            }
             error_log('Error execute: ' . $stmt->error);
             $stmt->close();
             $connexio->close();

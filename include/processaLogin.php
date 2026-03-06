@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $correu = $_POST['correuLogin'] ?? '';
 $contrasenya = $_POST['contrasenyaLogin'] ?? '';
 
-// cerquem l'usuari amb correu sense tenir en compte majúscules
 try {
     $connexio = new mysqli('localhost', 'root', 'root', 'projectePHPCesarOltraPart');
     if ($connexio->connect_error) {
@@ -44,15 +43,15 @@ try {
     $stmt->close();
     $connexio->close();
 
-    if ($contrasenya !== $contrasenyaDB) {
-        header("Location: ../index.php?error=loginContrasenya");
-        die();
+    if (!password_verify($contrasenya, $contrasenyaDB)) {
+        if ($contrasenya !== $contrasenyaDB) {
+            header("Location: ../index.php?error=loginContrasenya");
+            die();
+        }
     }
 
-    // autenticació correcta: creem variables de sessió
     $_SESSION['usuari_nom'] = $nomDB;
     $_SESSION['usuari_correu'] = $correuDB;
-    // bandera d'administrador segons correu
     if (strcasecmp($correuDB, 'admin@daw.com') === 0) {
         $_SESSION['admin'] = true;
     }
