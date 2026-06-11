@@ -33,6 +33,10 @@ if (isset($_SESSION['carret'])) {
             }
         }
         
+        echo '<p>';
+        echo '<a href="index.php?apartat=apadrina&mostrar=carret">Veure carret complet</a> | ';
+        echo '<a href="index.php?apartat=apadrina&mostrar=apadrina">Finalitzar apadrinament</a>';
+        echo '</p>';
         echo '</div>';
     }
     

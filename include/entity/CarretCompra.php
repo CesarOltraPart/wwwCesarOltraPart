@@ -32,12 +32,30 @@ class CarretCompra {
         if ($this->llista === null) {
             $this->llista = [];
         }
-        $this->llista[$animal->getId()] = $animal;
+        // evitar duplicats: si ja existeix no afegim (s'utilitza acumularQuantitatAnimal)
+        foreach ($this->llista as $ex) {
+            if ($ex->getId() === $animal->getId()) {
+                return;
+            }
+        }
+        $this->llista[] = $animal;
+        // ordenar per id ascendent
+        usort($this->llista, function($a, $b) {
+            return $a->getId() <=> $b->getId();
+        });
     }
 
     public function eliminarAnimal(int $idAnimal): void {
-        if ($this->llista !== null && isset($this->llista[$idAnimal])) {
-            unset($this->llista[$idAnimal]);
+        if ($this->llista === null) {
+            return;
+        }
+        foreach ($this->llista as $idx => $animal) {
+            if ($animal->getId() === $idAnimal) {
+                unset($this->llista[$idx]);
+                // reindex
+                $this->llista = array_values($this->llista);
+                return;
+            }
         }
     }
 
@@ -45,19 +63,36 @@ class CarretCompra {
         if ($this->llista === null) {
             return null;
         }
-        return $this->llista[$idAnimal] ?? null;
+        foreach ($this->llista as $animal) {
+            if ($animal->getId() === $idAnimal) {
+                return $animal;
+            }
+        }
+        return null;
     }
 
     public function canviarQuantitatAnimal(int $quantitat, int $idAnimal): void {
-        if ($this->llista !== null && isset($this->llista[$idAnimal])) {
-            $this->llista[$idAnimal]->setQuantitat($quantitat);
+        if ($this->llista === null) {
+            return;
+        }
+        foreach ($this->llista as $animal) {
+            if ($animal->getId() === $idAnimal) {
+                $animal->setQuantitat($quantitat);
+                return;
+            }
         }
     }
 
     public function acumularQuantitatAnimal(int $quantitat, int $idAnimal): void {
-        if ($this->llista !== null && isset($this->llista[$idAnimal])) {
-            $quantitatActual = $this->llista[$idAnimal]->getQuantitat();
-            $this->llista[$idAnimal]->setQuantitat($quantitatActual + $quantitat);
+        if ($this->llista === null) {
+            return;
+        }
+        foreach ($this->llista as $animal) {
+            if ($animal->getId() === $idAnimal) {
+                $quantitatActual = $animal->getQuantitat();
+                $animal->setQuantitat($quantitatActual + $quantitat);
+                return;
+            }
         }
     }
 
