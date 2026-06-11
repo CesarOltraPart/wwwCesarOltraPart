@@ -110,6 +110,29 @@ class CarretCompra {
         echo '</ul>';
     }
 
+    public function mostrarApadrina(): void {
+        if ($this->llista === null || count($this->llista) === 0) {
+            echo '<p>El carret està buit.</p>';
+            return;
+        }
+        $total = 0.0;
+        echo '<div class="mostrar-apadrina">';
+        echo '<h3>Resum apadrinament</h3>';
+        foreach ($this->llista as $animal) {
+            $quant = $animal->getQuantitat();
+            $don = $animal->getDonacio();
+            $total += $quant * $don;
+        }
+        echo '<p>Animals diferents: ' . htmlspecialchars(count($this->llista)) . '</p>';
+        echo '<p>Preu total: ' . htmlspecialchars(number_format($total,2)) . ' €</p>';
+        echo '<ul>';
+        foreach ($this->llista as $animal) {
+            echo '<li>' . htmlspecialchars($animal->getNomCo()) . ' - Quantitat: ' . intval($animal->getQuantitat()) . ' - Donació: ' . htmlspecialchars($animal->getDonacio()) . ' €</li>';
+        }
+        echo '</ul>';
+        echo '</div>';
+    }
+
     public function buidarCarret(): void {
         $this->llista = null;
     }
