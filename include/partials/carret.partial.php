@@ -1,39 +1,41 @@
 <?php
-// mostra el resum del darrer animal apadrinat si existeixen sessió
-if (!empty($_SESSION['idAnimal']) && !empty($_SESSION['quantitatAnimal'])) {
-    // necessitem dades del animal
-    require_once __DIR__ . '/../entity/CredencialsBD.php';
+// mostra el resum del carret i de l'últim animal apadrinat
+require_once __DIR__ . '/../entity/CredencialsBD.php';
+require_once __DIR__ . '/../entity/CarretCompra.php';
+require_once __DIR__ . '/../entity/Animal.php';
 
-    $id = intval($_SESSION['idAnimal']);
-    $qt = intval($_SESSION['quantitatAnimal']);
-
-    $conn = new mysqli(
-        CredencialsBD::SERVIDOR,
-        CredencialsBD::USUARI,
-        CredencialsBD::CONTRASENYA,
-        CredencialsBD::BASEDADES
-    );
-    if (!$conn->connect_error) {
-        $conn->set_charset('utf8mb4');
-        $sql = "SELECT nom_comu, donacio FROM animal WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param('i', $id);
-            if ($stmt->execute()) {
-                $stmt->bind_result($nom, $donacio);
-                if ($stmt->fetch()) {
-                    $total = $qt * $donacio;
-                    echo '<div class="carret">';
-                    echo '<h3>Últim apadrinament</h3>';
-                    echo '<p>Id: ' . htmlspecialchars($id) . '</p>';
-                    echo '<p>Nom: ' . htmlspecialchars($nom) . '</p>';
-                    echo '<p>Quantitat: ' . htmlspecialchars($qt) . '</p>';
-                    echo '<p>Donació total: ' . htmlspecialchars($total) . ' €</p>';
-                    echo '</div>';
-                }
+if (isset($_SESSION['carret'])) {
+    $carret = unserialize($_SESSION['carret']);
+    
+    if ($carret !== null && $carret->getLlista() !== null && count($carret->getLlista()) > 0) {
+        echo '<div class="carret">';
+        echo '<h3>Carret de compra</h3>';
+        
+        // Nombre d'animals diferents
+        $numAnimals = count($carret->getLlista());
+        echo '<p>Animals al carret: ' . htmlspecialchars($numAnimals) . '</p>';
+        
+        // Últim animal afegit
+        if (!empty($_SESSION['idAnimal'])) {
+            $idUltim = intval($_SESSION['idAnimal']);
+            $quantitatActual = intval($_SESSION['quantitatAnimal']);
+            
+            $animal = $carret->getAnimal($idUltim);
+            if ($animal !== null) {
+                // Quantitat de l'últim animal en el carret
+                $quantitatTotal = $animal->getQuantitat();
+                $donacio = $animal->getDonacio();
+                
+                echo '<p><strong>Últim apadrinament:</strong></p>';
+                echo '<p>Nom: ' . htmlspecialchars($animal->getNomCo()) . '</p>';
+                echo '<p>Donació actual: ' . htmlspecialchars($quantitatActual) . ' unitat/s de ' . htmlspecialchars($donacio) . ' €</p>';
+                echo '<p>Total d\'aquest animal al carret: ' . htmlspecialchars($quantitatTotal) . ' unitat/s</p>';
             }
-            $stmt->close();
         }
-        $conn->close();
+        
+        echo '</div>';
     }
+    
+    unset($carret);
 }
+

@@ -5,6 +5,12 @@ include "./funcions.php";
 if (isset($_SESSION['usuari_correu'])) {
     registrarAccionsUsuari('logout', $_SESSION['usuari_correu'], __FILE__);
 }
+
+// Eliminar el carret i variables relacionades
+unset($_SESSION['carret']);
+unset($_SESSION['idAnimal']);
+unset($_SESSION['quantitatAnimal']);
+
 // destruir tota la sessió deixant només possibles estils si es vol
 session_unset();
 session_destroy();

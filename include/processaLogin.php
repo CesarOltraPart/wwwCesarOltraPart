@@ -2,6 +2,8 @@
 session_start();
 include "./funcions.php";
 require_once __DIR__ . '/entity/CredencialsBD.php';
+require_once __DIR__ . '/entity/CarretCompra.php';
+require_once __DIR__ . '/entity/Animal.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../index.php");
@@ -62,6 +64,16 @@ try {
     $_SESSION['usuari_correu'] = $correuDB;
     if (strcasecmp($correuDB, 'admin@daw.com') === 0) {
         $_SESSION['admin'] = true;
+    }
+
+    // Actualitzar el carret si existeix amb el nou ID d'usuari
+    if (isset($_SESSION['carret'])) {
+        $carret = unserialize($_SESSION['carret']);
+        if ($carret !== null) {
+            $carret->setIdUsuari($correuDB);
+            $_SESSION['carret'] = serialize($carret);
+            unset($carret);
+        }
     }
 
     // registre login correcte amb el correu trobat a la base

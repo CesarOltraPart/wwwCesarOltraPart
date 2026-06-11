@@ -2,6 +2,7 @@
 
 // accés a constants de connexió
 require_once __DIR__ . '/entity/CredencialsBD.php';
+require_once __DIR__ . '/entity/Animal.php';
 
 function obtenirDirectoriRegistre(): string {
     $arrel = realpath(__DIR__ . '/..');
@@ -50,7 +51,7 @@ function registrarAccionsUsuari(string $accio, string $usuari, string $fitxer): 
 
 function esborraVariablesSessio() {
     // apart de l'estil i dades d'usuari/admin també conservem les dades del carret
-    $keep = ['estils', 'usuari_nom', 'usuari_correu', 'admin', 'idAnimal', 'quantitatAnimal'];
+    $keep = ['estils', 'usuari_nom', 'usuari_correu', 'admin', 'idAnimal', 'quantitatAnimal', 'carret'];
     foreach ($_SESSION as $key => $value) {
         if (!in_array($key, $keep)) {
             unset($_SESSION[$key]);
@@ -226,5 +227,58 @@ function mostraAnimals(): void {
         $conn->close();
     } catch (Exception $e) {
         echo '<p class="error">Exception: ' . htmlspecialchars($e->getMessage()) . '</p>';
+    }
+}
+
+function nouAnimal(int $idAnimal, int $quantitat): ?Animal {
+    try {
+        $conn = new mysqli(
+            CredencialsBD::SERVIDOR,
+            CredencialsBD::USUARI,
+            CredencialsBD::CONTRASENYA,
+            CredencialsBD::BASEDADES
+        );
+        if ($conn->connect_error) {
+            error_log('Error de connexió amb la base de dades: ' . $conn->connect_error);
+            return null;
+        }
+        $conn->set_charset('utf8mb4');
+        $sql = 'SELECT id, nom_comu, nom_cientific, descripcio, donacio, imatge FROM animal WHERE id = ?';
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            error_log('Error prepare: ' . $conn->error);
+            $conn->close();
+            return null;
+        }
+        
+        $stmt->bind_param('i', $idAnimal);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows === 0) {
+            error_log('Animal no trobar amb id: ' . $idAnimal);
+            $stmt->close();
+            $conn->close();
+            return null;
+        }
+        
+        $fila = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        
+        $animal = new Animal(
+            intval($fila['id']),
+            $fila['nom_comu'],
+            $fila['nom_cientific'],
+            $quantitat,
+            floatval($fila['donacio']),
+            $fila['descripcio'] ?? '',
+            $fila['imatge'] ?? ''
+        );
+        
+        return $animal;
+    } catch (Exception $e) {
+        error_log('Exception en nouAnimal: ' . $e->getMessage());
+        return null;
     }
 }
